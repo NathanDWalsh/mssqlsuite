@@ -14,6 +14,7 @@ if ("sqlengine" -in $Install) {
         Write-Output "mac detected, installing docker then downloading a docker container"
         $Env:HOMEBREW_NO_AUTO_UPDATE = 1
         brew install docker
+        brew install colima
         colima start --runtime docker
         docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" --name mssql -p 1433:1433 --memory="2g" -d "mcr.microsoft.com/mssql/server:$Version-latest"
         Write-Output "Docker finished running"
