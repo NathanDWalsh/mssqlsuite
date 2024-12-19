@@ -73,12 +73,8 @@ if ("sqlengine" -in $Install) {
         # Start-Process -Filepath "msiexec.exe" -ArgumentList "/i ./odbc18.msi", "/qb", "IACCEPTMSODBCSQLLICENSETERMS=YES"
         choco install sqlserver-odbcdriver
 
-        echo "Downloading exe"
         Invoke-WebRequest -Uri $exeUri -OutFile sqlsetup.exe
-        echo "Downloaded exe"
-        echo "Downloading box"
         Invoke-WebRequest -Uri $boxUri -OutFile sqlsetup.box
-        echo "Downloaded box"
         Start-Process -Wait -FilePath ./sqlsetup.exe -ArgumentList /qs, /x:setup
 
         .\setup\setup.exe /q /ACTION=Install /INSTANCENAME=MSSQLSERVER /FEATURES=SQLEngine /UPDATEENABLED=0 /SQLSVCACCOUNT='NT SERVICE\MSSQLSERVER' /SQLSYSADMINACCOUNTS='BUILTIN\ADMINISTRATORS' /TCPENABLED=1 /NPENABLED=0 /IACCEPTSQLSERVERLICENSETERMS /SQLCOLLATION=$Collation $installOptions
