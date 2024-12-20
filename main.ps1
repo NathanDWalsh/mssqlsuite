@@ -101,6 +101,10 @@ if ("sqlclient" -in $Install) {
         }
     }
 
+    if ($islinux) {
+        bash install_mssql_odbc18_ubuntu.sh
+    }
+
     Write-Output "sqlclient tools are installed"
 }
 
