@@ -102,7 +102,6 @@ if ("sqlclient" -in $Install) {
     }
 
     if ($islinux) {
-        echo $PSScriptRoot
         bash $PSScriptRoot/install_mssql_odbc18_ubuntu.sh
     }
 
