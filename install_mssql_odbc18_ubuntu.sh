@@ -23,4 +23,6 @@ curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list |
 # Install the driver
 sudo apt-get update
 sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev
-export PATH="$PATH:/opt/mssql-tools18/bin"
+
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
+
