@@ -102,8 +102,8 @@ if ("sqlclient" -in $Install) {
     }
 
     if ($islinux) {
-        ls
-        bash /home/runner/work/els/els/install_mssql_odbc18_ubuntu.sh
+        echo $PSScriptRoot
+        bash $PSScriptRoot/install_mssql_odbc18_ubuntu.sh
     }
 
     Write-Output "sqlclient tools are installed"
