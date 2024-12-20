@@ -16,9 +16,9 @@ if ("sqlengine" -in $Install) {
         brew install docker
         brew install colima
         colima start --runtime docker
-        docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" --name mssql -p 1433:1433 --memory="2g" -d "mcr.microsoft.com/mssql/server:$Version-latest"
+        docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" --name mssql -p 1433:1433 -d "mcr.microsoft.com/mssql/server:$Version-latest"
         Write-Output "Docker finished running"
-        Start-Sleep 5
+        Start-Sleep 10
         if ($ShowLog) {
             docker ps -a
             docker logs -t sql
@@ -68,22 +68,27 @@ if ("sqlengine" -in $Install) {
                 $versionMajor = 16
             }
         }
+
+        docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" -p 1433:1433 -d "mcr.microsoft.com/mssql/server:$Version-latest"
+        # docker pull mcr.microsoft.com/mssql/server:2022-latest
+
+        
         # $odbc18 = "https://download.microsoft.com/download/1/7/4/17423b83-b75d-42e1-b5b9-eaa266561c5e/Windows/amd64/1033/msodbcsql.msi"
         # Invoke-WebRequest -Uri $odbc18 -OutFile odbc18.msi
         # Start-Process -Filepath "msiexec.exe" -ArgumentList "/i ./odbc18.msi", "/qb", "IACCEPTMSODBCSQLLICENSETERMS=YES"
         choco install sqlserver-odbcdriver
 
-        Invoke-WebRequest -Uri $exeUri -OutFile sqlsetup.exe
-        Invoke-WebRequest -Uri $boxUri -OutFile sqlsetup.box
-        Start-Process -Wait -FilePath ./sqlsetup.exe -ArgumentList /qs, /x:setup
+        # Invoke-WebRequest -Uri $exeUri -OutFile sqlsetup.exe
+        # Invoke-WebRequest -Uri $boxUri -OutFile sqlsetup.box
+        # Start-Process -Wait -FilePath ./sqlsetup.exe -ArgumentList /qs, /x:setup
 
-        .\setup\setup.exe /q /ACTION=Install /INSTANCENAME=MSSQLSERVER /FEATURES=SQLEngine /UPDATEENABLED=0 /SQLSVCACCOUNT='NT SERVICE\MSSQLSERVER' /SQLSYSADMINACCOUNTS='BUILTIN\ADMINISTRATORS' /TCPENABLED=1 /NPENABLED=0 /IACCEPTSQLSERVERLICENSETERMS /SQLCOLLATION=$Collation $installOptions
+        # .\setup\setup.exe /q /ACTION=Install /INSTANCENAME=MSSQLSERVER /FEATURES=SQLEngine /UPDATEENABLED=0 /SQLSVCACCOUNT='NT SERVICE\MSSQLSERVER' /SQLSYSADMINACCOUNTS='BUILTIN\ADMINISTRATORS' /TCPENABLED=1 /NPENABLED=0 /IACCEPTSQLSERVERLICENSETERMS /SQLCOLLATION=$Collation $installOptions
 
-        Set-ItemProperty -path "HKLM:\Software\Microsoft\Microsoft SQL Server\MSSQL$versionMajor.MSSQLSERVER\MSSQLSERVER\" -Name LoginMode -Value 2
-        Restart-Service MSSQLSERVER
-        sqlcmd -S localhost -q "ALTER LOGIN [sa] WITH PASSWORD=N'$SaPassword'"
-        sqlcmd -S localhost -q "ALTER LOGIN [sa] ENABLE"
-        Pop-Location
+        # Set-ItemProperty -path "HKLM:\Software\Microsoft\Microsoft SQL Server\MSSQL$versionMajor.MSSQLSERVER\MSSQLSERVER\" -Name LoginMode -Value 2
+        # Restart-Service MSSQLSERVER
+        # sqlcmd -S localhost -q "ALTER LOGIN [sa] WITH PASSWORD=N'$SaPassword'"
+        # sqlcmd -S localhost -q "ALTER LOGIN [sa] ENABLE"
+        # Pop-Location
 
         Write-Output "sql server $Version installed at localhost and accessible with both windows and sql auth"
     }
