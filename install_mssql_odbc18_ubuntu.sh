@@ -22,4 +22,4 @@ curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list |
 
 # Install the driver
 sudo apt-get update
-sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17 msodbcsql18 mssql-tools18 unixodbc-dev
+sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17 msodbcsql18 mssql-tools18
