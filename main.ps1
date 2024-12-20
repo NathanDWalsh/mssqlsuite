@@ -69,7 +69,7 @@ if ("sqlengine" -in $Install) {
             }
         }
 
-        "C:\Program Files\Docker\Docker\DockerCli.exe -SwitchLinuxEngine"
+        Get-ChildItem "C:\Program Files\Docker\Docker\DockerCli.exe"
         docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" -p 1433:1433 -d "mcr.microsoft.com/mssql/server:$Version-latest"
         # docker pull mcr.microsoft.com/mssql/server:2022-latest
 
