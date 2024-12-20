@@ -69,18 +69,18 @@ if ("sqlengine" -in $Install) {
             }
         }
 
-        Get-ChildItem "/c/Windows/system32/"
+        Get-ChildItem "/Windows/system32/"
         
         docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" -p 1433:1433 -d "mcr.microsoft.com/mssql/server:$Version-latest"
         # docker pull mcr.microsoft.com/mssql/server:2022-latest
-        Get-ChildItem "/c/Program Files/Docker/Docker"
+        Get-ChildItem "/Program Files/Docker/Docker"
         
         
         # $odbc18 = "https://download.microsoft.com/download/1/7/4/17423b83-b75d-42e1-b5b9-eaa266561c5e/Windows/amd64/1033/msodbcsql.msi"
         # Invoke-WebRequest -Uri $odbc18 -OutFile odbc18.msi
         # Start-Process -Filepath "msiexec.exe" -ArgumentList "/i ./odbc18.msi", "/qb", "IACCEPTMSODBCSQLLICENSETERMS=YES"
         choco install sqlserver-odbcdriver
-        Get-ChildItem "/c/program files/"
+        Get-ChildItem "/program files/"
         # Invoke-WebRequest -Uri $exeUri -OutFile sqlsetup.exe
         # Invoke-WebRequest -Uri $boxUri -OutFile sqlsetup.box
         # Start-Process -Wait -FilePath ./sqlsetup.exe -ArgumentList /qs, /x:setup
@@ -102,7 +102,7 @@ if ("sqlclient" -in $Install) {
         Write-Output "Installing sqlclient tools"
         brew tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
         #$null = brew update
-        $log = brew install microsoft/mssql-release/msodbcsql17 microsoft/mssql-release/mssql-tools
+        $log = brew install microsoft/mssql-release/msodbcsql17 microsoft/mssql-release/msodbcsql18 microsoft/mssql-release/mssql-tools
 
         if ($ShowLog) {
             $log
