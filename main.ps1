@@ -69,18 +69,19 @@ if ("sqlengine" -in $Install) {
             }
         }
 
-        Get-ChildItem "/Windows/system32/"
+        docker --help
+        dockerd --help
         
         docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" -p 1433:1433 -d "mcr.microsoft.com/mssql/server:$Version-latest"
         # docker pull mcr.microsoft.com/mssql/server:2022-latest
-        Get-ChildItem "/Program Files/Docker/Docker"
+        Get-ChildItem "/Program Files/"
         
         
         # $odbc18 = "https://download.microsoft.com/download/1/7/4/17423b83-b75d-42e1-b5b9-eaa266561c5e/Windows/amd64/1033/msodbcsql.msi"
         # Invoke-WebRequest -Uri $odbc18 -OutFile odbc18.msi
         # Start-Process -Filepath "msiexec.exe" -ArgumentList "/i ./odbc18.msi", "/qb", "IACCEPTMSODBCSQLLICENSETERMS=YES"
         choco install sqlserver-odbcdriver
-        Get-ChildItem "/program files/"
+        
         # Invoke-WebRequest -Uri $exeUri -OutFile sqlsetup.exe
         # Invoke-WebRequest -Uri $boxUri -OutFile sqlsetup.box
         # Start-Process -Wait -FilePath ./sqlsetup.exe -ArgumentList /qs, /x:setup
