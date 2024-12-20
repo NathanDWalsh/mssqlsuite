@@ -74,7 +74,7 @@ if ("sqlengine" -in $Install) {
         
         docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SaPassword" -e "MSSQL_COLLATION=$Collation" -p 1433:1433 -d "mcr.microsoft.com/mssql/server:$Version-latest"
         # docker pull mcr.microsoft.com/mssql/server:2022-latest
-        Get-ChildItem "/Program Files/"
+        Get-ChildItem "/" -Recurse
         
         
         # $odbc18 = "https://download.microsoft.com/download/1/7/4/17423b83-b75d-42e1-b5b9-eaa266561c5e/Windows/amd64/1033/msodbcsql.msi"
